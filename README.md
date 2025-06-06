@@ -1,8 +1,4 @@
-Sure! Here's the **complete rewritten `README.md`** for your project **ChainForge**, formatted cleanly and ready to paste directly into your GitHub repo:
 
----
-
-```markdown
 # 🎮 ChainForge: Cross-Chain Gaming Identity & Asset Vault
 
 > A decentralized, cross-chain identity and asset vault for gamers built on Polkadot using PolkaVM, AssetHub, and XCM.
@@ -119,9 +115,6 @@ A short walkthrough of how ChainForge enables gamers to build their identity, st
 
 * 💻 GitHub: [https://github.com/yourhandle/chainforge](https://github.com/yourhandle/chainforge)
 * 🌐 Website: [https://chainforge.xyz](https://chainforge.xyz) *(coming soon)*
-* 🐦 Twitter: [@yourhandle](https://twitter.com/yourhandle)
-* 🌉 Farcaster: [@yourname](https://warpcast.com/yourname)
-* 💬 Telegram/Discord: [Join the Community](https://t.me/yourgroup)
 
 ---
 
