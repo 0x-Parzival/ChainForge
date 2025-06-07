@@ -3,65 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChainForge - Local Test</title>
+    <title>ChainForge - Cross-Chain Gaming Identity</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary: #8a2be2;
+            --dark: #1a1a1a;
+            --light: #f8f9fa;
+            --secondary: #6c757d;
+        }
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #1a1a1a;
-            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.8) !important;
+            backdrop-filter: blur(10px);
+        }
+        .btn-primary {
+            background-color: var(--primary);
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #7b1fa2;
+        }
+        .card {
             background-color: #2d2d2d;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            border: 1px solid #444;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
         }
-        h1 {
-            color: #8a2be2;
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        .status {
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 4px;
-            background-color: #333;
-        }
-        .success {
+        .status-connected {
             color: #4caf50;
-            border-left: 4px solid #4caf50;
+        }
+        .status-disconnected {
+            color: #f44336;
+        }
+        .glass-panel {
+            background: rgba(45, 45, 45, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🚀 ChainForge - Local Development</h1>
-        <p>Welcome to the local development server for ChainForge.</p>
-        
-        <div class="status success">
-            <h3>✅ Server is running!</h3>
-            <p>You can now proceed with setting up the full application.</p>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top mb-4">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <span class="fs-4 fw-bold">🔗 ChainForge</span>
+            </a>
+            <div class="d-flex align-items-center">
+                <div id="connection-status" class="me-3">
+                    <span class="badge bg-danger">Disconnected</span>
+                </div>
+                <button class="btn btn-outline-light" id="connect-wallet">
+                    Connect Wallet
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold mb-3">Welcome to ChainForge</h1>
+            <p class="lead text-muted">Your cross-chain gaming identity and asset vault</p>
         </div>
 
-        <h2>Next Steps:</h2>
-        <ol>
-            <li>Open a new terminal</li>
-            <li>Navigate to the project directory</li>
-            <li>Run the Substrate node for blockchain functionality</li>
-        </ol>
+        <!-- Main Content -->
+        <div class="row">
+            <!-- Profile Section -->
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="position-relative mb-3">
+                            <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" width="100" alt="Profile">
+                        </div>
+                        <h4 id="wallet-address" class="card-title text-truncate">Not Connected</h4>
+                        <p class="text-muted mb-4">Gamer Profile</p>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary" id="create-profile">Create Profile</button>
+                            <button class="btn btn-outline-secondary" id="edit-profile">Edit Profile</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <h3>Start Substrate Node (in a new terminal):</h3>
-        <pre>cd "/home/xero/hackathon projects/Cross-Chain-Gaming-Identity-Asset-Vault"
-cargo install contracts-node --git https://github.com/paritytech/substrate-contracts-node.git --tag v0.34.0 --force --locked
-substrate-contracts-node --dev</pre>
+            <!-- Assets Section -->
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">My Assets</h5>
+                        <button class="btn btn-sm btn-primary" id="refresh-assets">
+                            <span class="spinner-border spinner-border-sm d-none" id="refresh-spinner" role="status"></span>
+                            Refresh
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="assets-container" class="text-center py-4">
+                            <p class="text-muted">No assets found</p>
+                        </div>
+                    </div>
+                </div>
 
-        <h3>Build and Deploy Contract (in another terminal):</h3>
-        <pre>cd "/home/xero/hackathon projects/Cross-Chain-Gaming-Identity-Asset-Vault/contracts/gamer_profile"
-cargo +nightly contract build
-# Then use Contracts UI at https://contracts-ui.substrate.io/</pre>
+                <!-- Transaction History -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Recent Activity</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="activity-container" class="text-center py-4">
+                            <p class="text-muted">No recent activity</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Modals -->
+    <div class="modal fade" id="connectModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title">Connect Wallet</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-light d-flex align-items-center justify-content-between p-3" id="polkadot-js">
+                            <span>Polkadot.js Extension</span>
+                            <img src="https://polkadot.js.org/extension/polkadot-logo.svg" height="24" alt="Polkadot">
+                        </button>
+                        <button class="btn btn-outline-light d-flex align-items-center justify-content-between p-3" id="talisman">
+                            <span>Talisman</span>
+                            <img src="https://talisman-public-assets.talisman.xyz/brand-assets/logo/brandmark-white-magenta.svg" height="24" alt="Talisman">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Basic UI Interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            const connectBtn = document.getElementById('connect-wallet');
+            const connectModal = new bootstrap.Modal(document.getElementById('connectModal'));
+            
+            connectBtn.addEventListener('click', () => connectModal.show());
+            
+            // Simulate connection for demo
+            document.getElementById('polkadot-js').addEventListener('click', function() {
+                // In a real app, this would connect to the Polkadot.js extension
+                document.getElementById('connection-status').innerHTML = '<span class="badge bg-success">Connected</span>';
+                document.getElementById('wallet-address').textContent = '5HjZ...8XyZ';
+                connectModal.hide();
+                
+                // Enable buttons
+                document.getElementById('create-profile').disabled = false;
+                document.getElementById('edit-profile').disabled = false;
+                
+                // Show success message
+                showToast('Wallet connected successfully!', 'success');
+            });
+            
+            // Add click handlers for other buttons
+            document.getElementById('create-profile').addEventListener('click', function() {
+                showToast('Profile creation will be implemented soon!', 'info');
+            });
+            
+            document.getElementById('edit-profile').addEventListener('click', function() {
+                showToast('Profile editing will be implemented soon!', 'info');
+            });
+            
+            document.getElementById('refresh-assets').addEventListener('click', function() {
+                const spinner = document.getElementById('refresh-spinner');
+                spinner.classList.remove('d-none');
+                
+                // Simulate API call
+                setTimeout(() => {
+                    spinner.classList.add('d-none');
+                    showToast('Assets refreshed!', 'success');
+                }, 1000);
+            });
+        });
+        
+        function showToast(message, type = 'info') {
+            // In a real app, you would use a proper toast library
+            alert(`${type.toUpperCase()}: ${message}`);
+        }
+        
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
 </body>
 </html>
