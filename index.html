@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChainForge - Local Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #2d2d2d;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #8a2be2;
+        }
+        .status {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            background-color: #333;
+        }
+        .success {
+            color: #4caf50;
+            border-left: 4px solid #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 ChainForge - Local Development</h1>
+        <p>Welcome to the local development server for ChainForge.</p>
+        
+        <div class="status success">
+            <h3>✅ Server is running!</h3>
+            <p>You can now proceed with setting up the full application.</p>
+        </div>
+
+        <h2>Next Steps:</h2>
+        <ol>
+            <li>Open a new terminal</li>
+            <li>Navigate to the project directory</li>
+            <li>Run the Substrate node for blockchain functionality</li>
+        </ol>
+
+        <h3>Start Substrate Node (in a new terminal):</h3>
+        <pre>cd "/home/xero/hackathon projects/Cross-Chain-Gaming-Identity-Asset-Vault"
+cargo install contracts-node --git https://github.com/paritytech/substrate-contracts-node.git --tag v0.34.0 --force --locked
+substrate-contracts-node --dev</pre>
+
+        <h3>Build and Deploy Contract (in another terminal):</h3>
+        <pre>cd "/home/xero/hackathon projects/Cross-Chain-Gaming-Identity-Asset-Vault/contracts/gamer_profile"
+cargo +nightly contract build
+# Then use Contracts UI at https://contracts-ui.substrate.io/</pre>
+    </div>
+</body>
+</html>

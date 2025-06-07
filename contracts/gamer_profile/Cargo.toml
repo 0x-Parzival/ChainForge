@@ -1,0 +1,36 @@
+[package]
+name = "gamer_profile"
+version = "0.1.0"
+authors = ["ChainForge Team <team@chainforge.xyz>"]
+description = "Gamer profile smart contract for ChainForge"
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/0x-Parzival/Cross-Chain-Gaming-Identity-Asset-Vault"
+
+[dependencies]
+ink = { version = "5.1.1", default-features = false }
+scale = { package = "parity-scale-codec", version = "3.0.0", default-features = false, features = ["derive"] }
+scale-info = { version = "2.3.1", default-features = false, features = ["derive"], optional = true }
+
+[dev-dependencies]
+ink_e2e = { version = "5.1.1" }
+
+[lib]
+name = "gamer_profile"
+path = "lib.rs"
+
+[features]
+default = ["std"]
+std = [
+    "ink/std",
+    "scale/std",
+    "scale-info/std",
+]
+ink-as-dependency = []
+
+[profile.release]
+codegen-units = 1
+panic = "abort"
+lto = true
+opt-level = "z"
+overflow-checks = false
