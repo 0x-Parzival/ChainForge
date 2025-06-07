@@ -1,0 +1,11 @@
+{
+  "name": "chainforge",
+  "version": "1.0.0",
+  "description": "ChainForge - Cross-Chain Gaming Identity & Asset Vault",
+  "main": "index.html",
+  "scripts": {
+    "start": "echo 'Open index.html in your browser'"
+  },
+  "author": "",
+  "license": "MIT"
+}
