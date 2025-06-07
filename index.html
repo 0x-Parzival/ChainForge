@@ -4,95 +4,331 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChainForge - Cross-Chain Gaming Identity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #8a2be2;
-            --dark: #1a1a1a;
+            --primary: #6c63ff;
+            --primary-dark: #5649e6;
+            --secondary: #00b4d8;
+            --dark: #0a0e17;
+            --darker: #070b14;
             --light: #f8f9fa;
-            --secondary: #6c757d;
+            --gray: #6c757d;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --glass-border: rgba(255, 255, 255, 0.05);
         }
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--dark);
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
             color: var(--light);
             min-height: 100vh;
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
         }
+        
+        /* Typography */
+        h1, h2, h3, h4, h5, h6, .display-1, .display-2, .display-3, .display-4 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .text-gradient {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        
+        /* Navigation */
         .navbar {
-            background-color: rgba(0, 0, 0, 0.8) !important;
+            background: rgba(10, 14, 23, 0.8) !important;
             backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 0.75rem 0;
         }
-        .btn-primary {
-            background-color: var(--primary);
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        
+        /* Buttons */
+        .btn-gradient {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
             border: none;
+            color: white;
+            font-weight: 500;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: all 0.3s ease;
         }
-        .btn-primary:hover {
-            background-color: #7b1fa2;
+        
+        .btn-gradient:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.4);
         }
+        
+        .btn-outline-light {
+            border-color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-light:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        /* Cards */
         .card {
-            background-color: #2d2d2d;
-            border: 1px solid #444;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            position: relative;
         }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(108, 99, 255, 0.2);
         }
+        
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        /* Status Indicators */
         .status-connected {
-            color: #4caf50;
+            color: var(--success);
         }
+        
         .status-disconnected {
-            color: #f44336;
+            color: var(--danger);
         }
+        
+        /* Glass Panel */
         .glass-panel {
-            background: rgba(45, 45, 45, 0.8);
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(10px);
-            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
             padding: 2rem;
             margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .glass-panel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .pulse-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: pulse 2s infinite;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .card {
+                margin-bottom: 1.5rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.25rem;
+            }
+            
+            .btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top mb-4">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <span class="fs-4 fw-bold">🔗 ChainForge</span>
+                <i class="fas fa-cube me-2"></i>
+                <span class="text-gradient">ChainForge</span>
             </a>
-            <div class="d-flex align-items-center">
-                <div id="connection-status" class="me-3">
-                    <span class="badge bg-danger">Disconnected</span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Assets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Games</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Marketplace</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <div id="connection-status" class="me-3 d-flex align-items-center">
+                        <div class="pulse-indicator me-2"></div>
+                        <span class="badge bg-danger">Disconnected</span>
+                    </div>
+                    <button class="btn btn-gradient" id="connect-wallet">
+                        <i class="fas fa-wallet me-2"></i>Connect Wallet
+                    </button>
                 </div>
-                <button class="btn btn-outline-light" id="connect-wallet">
-                    Connect Wallet
-                </button>
             </div>
         </div>
     </nav>
 
-    <div class="container py-4">
+    <div class="container py-4 animate__animated animate__fadeIn">
         <!-- Header -->
-        <div class="text-center mb-5">
-            <h1 class="display-4 fw-bold mb-3">Welcome to ChainForge</h1>
-            <p class="lead text-muted">Your cross-chain gaming identity and asset vault</p>
+        <div class="text-center mb-5 py-5">
+            <div class="position-relative d-inline-block mb-4">
+                <div class="position-absolute top-0 start-50 translate-middle">
+                    <div class="pulse-circle"></div>
+                </div>
+                <h1 class="display-3 fw-bold text-gradient mb-3">Welcome to ChainForge</h1>
+            </div>
+            <p class="lead text-light mb-4">Your gateway to the metaverse of gaming assets</p>
+            <div class="d-flex justify-content-center gap-3 mb-5">
+                <button class="btn btn-gradient px-4 py-2" id="connect-wallet">
+                    <i class="fas fa-plug me-2"></i>Connect Wallet
+                </button>
+                <button class="btn btn-outline-light px-4 py-2">
+                    <i class="fas fa-rocket me-2"></i>Get Started
+                </button>
+            </div>
+            <div class="mt-5">
+                <div class="d-flex justify-content-center gap-4">
+                    <div class="text-center">
+                        <div class="display-6 mb-1" id="total-users">10K+</div>
+                        <div class="text-muted">Users</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="display-6 mb-1" id="total-assets">250K+</div>
+                        <div class="text-muted">Assets</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="display-6 mb-1" id="total-chains">12+</div>
+                        <div class="text-muted">Chains</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Main Content -->
-        <div class="row">
+        <div class="row g-4">
             <!-- Profile Section -->
-            <div class="col-lg-4 mb-4">
+            <div class="col-lg-4">
                 <div class="card h-100">
-                    <div class="card-body text-center">
-                        <div class="position-relative mb-3">
-                            <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" width="100" alt="Profile">
-                        </div>
-                        <h4 id="wallet-address" class="card-title text-truncate">Not Connected</h4>
-                        <p class="text-muted mb-4">Gamer Profile</p>
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-primary" id="create-profile">Create Profile</button>
-                            <button class="btn btn-outline-secondary" id="edit-profile">Edit Profile</button>
+                    <div class="card-body p-4">
+                        <div class="text-center position-relative">
+                            <div class="position-relative d-inline-block mb-4">
+                                <div class="profile-avatar-container">
+                                    <img src="https://api.dicebear.com/7.x/identicon/svg?seed=ChainForge" class="profile-avatar" alt="Profile" id="profile-avatar">
+                                    <div class="online-status"></div>
+                                </div>
+                                <div class="level-badge">Lvl 15</div>
+                            </div>
+                            <h4 class="mb-1 fw-bold" id="wallet-address">Not Connected</h4>
+                            <p class="text-muted mb-4">Gamer Profile</p>
+                            
+                            <div class="d-grid gap-2 mb-4">
+                                <button class="btn btn-gradient" id="create-profile">
+                                    <i class="fas fa-plus-circle me-2"></i>Create Profile
+                                </button>
+                                <button class="btn btn-outline-light" id="edit-profile" disabled>
+                                    <i class="fas fa-edit me-2"></i>Edit Profile
+                                </button>
+                            </div>
+                            
+                            <div class="progress mb-4" style="height: 6px; background: rgba(255,255,255,0.1);">
+                                <div class="progress-bar bg-gradient" role="progressbar" style="width: 65%;"></div>
+                            </div>
+                            
+                            <div class="row text-center g-3">
+                                <div class="col-4">
+                                    <div class="h5 mb-1" id="games-count">0</div>
+                                    <div class="small text-muted">Games</div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="h5 mb-1" id="assets-count">0</div>
+                                    <div class="small text-muted">Assets</div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="h5 mb-1" id="friends-count">0</div>
+                                    <div class="small text-muted">Friends</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -100,29 +336,92 @@
 
             <!-- Assets Section -->
             <div class="col-lg-8">
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">My Assets</h5>
-                        <button class="btn btn-sm btn-primary" id="refresh-assets">
-                            <span class="spinner-border spinner-border-sm d-none" id="refresh-spinner" role="status"></span>
-                            Refresh
-                        </button>
+                <div class="card mb-4 border-0">
+                    <div class="card-header bg-transparent border-0 d-flex flex-wrap justify-content-between align-items-center">
+                        <h5 class="mb-0 d-flex align-items-center">
+                            <i class="fas fa-cubes me-2 text-gradient"></i>My Assets
+                        </h5>
+                        <div class="d-flex gap-2 mt-2 mt-md-0">
+                            <div class="input-group input-group-sm" style="max-width: 200px;">
+                                <span class="input-group-text bg-dark border-end-0">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                <input type="text" class="form-control bg-dark border-start-0" id="asset-search" placeholder="Search assets...">
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-sm btn-outline-light active" data-filter="all">All</button>
+                                <button class="btn btn-sm btn-outline-light" data-filter="game">Games</button>
+                                <button class="btn btn-sm btn-outline-light" data-filter="nft">NFTs</button>
+                            </div>
+                            <button class="btn btn-sm btn-gradient" id="refresh-assets">
+                                <span class="spinner-border spinner-border-sm d-none" id="refresh-spinner" role="status"></span>
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div id="assets-container" class="text-center py-4">
-                            <p class="text-muted">No assets found</p>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="bg-dark">
+                                    <tr>
+                                        <th class="border-0 ps-4">Asset</th>
+                                        <th class="border-0">Name</th>
+                                        <th class="border-0">Type</th>
+                                        <th class="border-0">Chain</th>
+                                        <th class="border-0 text-end pe-4">Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="assets-container">
+                                    <tr>
+                                        <td colspan="4" class="text-center py-5">
+                                            <div class="mb-3">
+                                                <i class="fas fa-cube fa-3x text-muted mb-3"></i>
+                                                <p class="text-muted mb-0">No assets found</p>
+                                                <button class="btn btn-sm btn-outline-light mt-3" id="import-asset">
+                                                    <i class="fas fa-plus me-1"></i> Import Asset
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
 
-                <!-- Transaction History -->
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Recent Activity</h5>
+                <!-- Activity Section -->
+                <div class="card border-0">
+                    <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 d-flex align-items-center">
+                            <i class="fas fa-history me-2 text-gradient"></i>Recent Activity
+                        </h5>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-outline-light active" data-activity-filter="all">All</button>
+                            <button type="button" class="btn btn-outline-light" data-activity-filter="transfer">Transfers</button>
+                            <button type="button" class="btn btn-outline-light" data-activity-filter="trade">Trades</button>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div id="activity-container" class="text-center py-4">
-                            <p class="text-muted">No recent activity</p>
+                    <div class="card-body p-0">
+                        <div class="list-group list-group-flush" id="activity-container">
+                            <div class="list-group-item bg-transparent border-0 py-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-primary bg-opacity-10 rounded-circle p-2">
+                                            <i class="fas fa-exchange-alt text-primary"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="mb-0">No recent activity</h6>
+                                            <small class="text-muted">Just now</small>
+                                        </div>
+                                        <p class="small mb-0 text-muted">Connect your wallet to see your activity</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 text-center">
+                            <a href="#" class="text-decoration-none view-all-activity">View all activity</a>
                         </div>
                     </div>
                 </div>
@@ -155,6 +454,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // Basic UI Interactions
         document.addEventListener('DOMContentLoaded', function() {
@@ -199,9 +499,219 @@
             });
         });
         
-        function showToast(message, type = 'info') {
-            // In a real app, you would use a proper toast library
-            alert(`${type.toUpperCase()}: ${message}`);
+        // Load assets into the UI
+        function loadAssets() {
+            if (!assetsContainer) return;
+            
+            if (sampleAssets.length === 0) {
+                assetsContainer.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="text-center py-5">
+                            <div class="mb-3">
+                                <i class="fas fa-cube fa-3x text-muted mb-3"></i>
+                                <p class="text-muted mb-0">No assets found</p>
+                                <button class="btn btn-sm btn-outline-light mt-3" id="import-asset">
+                                    <i class="fas fa-plus me-1"></i> Import Asset
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            let html = '';
+            sampleAssets.forEach(asset => {
+                html += `
+                    <tr class="asset-item" data-id="${asset.id}">
+                        <td class="ps-4">
+                            <div class="d-flex align-items-center">
+                                <div class="asset-icon me-3">
+                                    <i class="fas fa-${asset.image || 'cube'}"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold">${asset.name}</div>
+                                    <small class="text-muted">${asset.type}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${asset.name}</td>
+                        <td><span class="badge bg-primary">${asset.chain}</span></td>
+                        <td class="text-end pe-4 fw-bold">${asset.value}</td>
+                    </tr>
+                `;
+            });
+            
+            assetsContainer.innerHTML = html;
+            
+            // Add click handlers to asset rows
+            document.querySelectorAll('.asset-item').forEach(row => {
+                row.addEventListener('click', () => {
+                    const assetId = row.getAttribute('data-id');
+                    showAssetDetails(assetId);
+                });
+            });
+        }
+        
+        // Load activities into the UI
+        function loadActivities() {
+            if (!activityContainer) return;
+            
+            if (sampleActivities.length === 0) {
+                activityContainer.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="fas fa-history fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">No recent activity</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            sampleActivities.forEach(activity => {
+                let icon = 'exchange-alt';
+                let color = 'primary';
+                let text = '';
+                
+                switch(activity.type) {
+                    case 'transfer':
+                        icon = 'arrow-right';
+                        color = 'warning';
+                        text = `Sent ${activity.amount} to ${activity.to}`;
+                        break;
+                    case 'receive':
+                        icon = 'arrow-left';
+                        color = 'success';
+                        text = `Received ${activity.amount} from ${activity.from}`;
+                        break;
+                    case 'mint':
+                        icon = 'magic';
+                        color = 'info';
+                        text = `Minted ${activity.item} on ${activity.chain}`;
+                        break;
+                    case 'sale':
+                        icon = 'coins';
+                        color = 'success';
+                        text = `Sold ${activity.item} for ${activity.price}`;
+                        break;
+                }
+                
+                html += `
+                    <div class="list-group-item bg-transparent border-0 py-3">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <div class="bg-${color} bg-opacity-10 rounded-circle p-2">
+                                    <i class="fas fa-${icon} text-${color}"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0">${text}</h6>
+                                    <small class="text-muted">${activity.time}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            activityContainer.innerHTML = html;
+        }
+        
+        // Update statistics
+        function updateStats() {
+            document.getElementById('games-count').textContent = Math.floor(Math.random() * 20) + 5;
+            document.getElementById('assets-count').textContent = sampleAssets.length;
+            document.getElementById('friends-count').textContent = Math.floor(Math.random() * 100) + 15;
+            document.getElementById('total-users').textContent = '10K+';
+            document.getElementById('total-assets').textContent = '250K+';
+            document.getElementById('total-chains').textContent = '12+';
+        }
+        
+        // Show asset details modal
+        function showAssetDetails(assetId) {
+            const asset = sampleAssets.find(a => a.id == assetId);
+            if (!asset) return;
+            
+            // In a real app, you would show a modal with asset details
+            showToast(`Viewing details for ${asset.name}`, 'info');
+        }
+        
+        // Show create profile modal
+        function showCreateProfileModal() {
+            // In a real app, you would show a modal for profile creation
+            showToast('Profile creation will be implemented soon!', 'info');
+        }
+        
+        // Show edit profile modal
+        function showEditProfileModal() {
+            // In a real app, you would show a modal for profile editing
+            showToast('Profile editing will be implemented soon!', 'info');
+        }
+        
+        // Copy text to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Copied to clipboard!', 'success');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                showToast('Failed to copy', 'error');
+            });
+        }
+        
+        // Show toast notification
+        function showToast(message, type = 'info', duration = 3000) {
+            // Create toast container if it doesn't exist
+            let toastContainer = document.getElementById('toast-container');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.id = 'toast-container';
+                toastContainer.style.position = 'fixed';
+                toastContainer.style.bottom = '20px';
+                toastContainer.style.right = '20px';
+                toastContainer.style.zIndex = '9999';
+                document.body.appendChild(toastContainer);
+            }
+            
+            const toast = document.createElement('div');
+            toast.className = `toast show align-items-center text-white bg-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'primary'} border-0`;
+            toast.role = 'alert';
+            toast.setAttribute('aria-live', 'assertive');
+            toast.setAttribute('aria-atomic', 'true');
+            toast.style.marginBottom = '10px';
+            toast.style.borderRadius = '10px';
+            toast.style.overflow = 'hidden';
+            toast.style.width = '300px';
+            
+            const toastBody = document.createElement('div');
+            toastBody.className = 'd-flex';
+            
+            const toastContent = document.createElement('div');
+            toastContent.className = 'toast-body';
+            toastContent.textContent = message;
+            
+            const closeButton = document.createElement('button');
+            closeButton.type = 'button';
+            closeButton.className = 'btn-close btn-close-white me-2 m-auto';
+            closeButton.setAttribute('data-bs-dismiss', 'toast');
+            closeButton.setAttribute('aria-label', 'Close');
+            closeButton.onclick = function() {
+                toast.remove();
+            };
+            
+            toastBody.appendChild(toastContent);
+            toastBody.appendChild(closeButton);
+            toast.appendChild(toastBody);
+            toastContainer.appendChild(toast);
+            
+            // Auto remove toast after duration
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.classList.add('hide');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, duration);
         }
         
         // Initialize tooltips
